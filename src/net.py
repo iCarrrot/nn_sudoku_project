@@ -74,3 +74,22 @@ def get_dataloader(digits, y, batch_size_test=1000, device='cpu'):
     grid_dataloader = torch.utils.data.DataLoader(grid_dataset, batch_size=batch_size_test, shuffle=False)
     grid_dataloader.dataset.tensors = tuple(t.to(device) for t in grid_dataloader.dataset.tensors)
     return grid_dataloader
+
+
+def get_test_and_train_dataloader(digits, y, batch_size_test=1000, device='cpu', split_size=0.7):
+    tensor_x = torch.Tensor((255 - digits).reshape((-1, 1, 28, 28))).to(device)
+    tensor_y = torch.LongTensor(y.reshape((-1))).to(device)
+    div_ = int(split_size * len(tensor_y))
+    train_x = tensor_x[:div_, ...]
+    train_y = tensor_y[:div_, ...]
+    test_x = tensor_x[div_:, ...]
+    test_y = tensor_y[div_:, ...]
+    test_grid_dataset = torch.utils.data.TensorDataset(test_x, test_y)
+    test_grid_dataloader = torch.utils.data.DataLoader(test_grid_dataset, batch_size=batch_size_test, shuffle=False)
+    test_grid_dataloader.dataset.tensors = tuple(t.to(device) for t in test_grid_dataloader.dataset.tensors)
+
+    train_grid_dataset = torch.utils.data.TensorDataset(train_x, train_y)
+    train_grid_dataloader = torch.utils.data.DataLoader(train_grid_dataset, batch_size=batch_size_test, shuffle=False)
+    train_grid_dataloader.dataset.tensors = tuple(t.to(device) for t in train_grid_dataloader.dataset.tensors)
+
+    return test_grid_dataloader, train_grid_dataloader
