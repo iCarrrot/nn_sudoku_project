@@ -66,9 +66,9 @@ def test(model, device, test_loader):
     return pred.numpy()
 
 
-def get_dataloader(digits, y, batch_size_test=1000):
-    tensor_x = torch.Tensor((255 - digits).reshape((-1, 1, 28, 28)))
-    tensor_y = torch.LongTensor(y.reshape((-1)))
+def get_dataloader(digits, y, batch_size_test=1000, device='cpu'):
+    tensor_x = torch.Tensor((255 - digits).reshape((-1, 1, 28, 28))).to(device)
+    tensor_y = torch.LongTensor(y.reshape((-1))).to(device)
     grid_dataset = torch.utils.data.TensorDataset(tensor_x, tensor_y)
     grid_dataloader = torch.utils.data.DataLoader(grid_dataset, batch_size=batch_size_test, shuffle=True)
     return grid_dataloader

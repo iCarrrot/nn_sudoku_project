@@ -66,12 +66,12 @@ def get_pics_path(default="~/Downloads/dataset"):
     return pics_path
 
 
-def get_gray_images(pics_path, pic_set=['easy', 'medium', 'hard']):
+def get_gray_images(pics_path):
     gray_images = []
-    for dir_name in pic_set:
-        dir_path = os.path.join(pics_path, dir_name)
-        for img_name in os.listdir(dir_path):
-            img_path = os.path.join(pics_path, dir_name, img_name)
+
+    for img_name in os.listdir(pics_path):
+        if 'jpg' in img_name:
+            img_path = os.path.join(pics_path, img_name)
             gray_images.append(to_gray(img_path))
 
     gray_images = np.array(gray_images)
