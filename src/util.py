@@ -70,7 +70,7 @@ def get_pics_path(default="~/Downloads/dataset"):
 def get_gray_images(pics_path):
     gray_images = []
     labels = []
-    with open(os.path.join(pics_path, 'data.txt')) as json_file:
+    with open(os.path.join(pics_path, 'labels.json')) as json_file:
         data = json.load(json_file)
     for img_name in data:
         img_path = os.path.join(pics_path, img_name)
