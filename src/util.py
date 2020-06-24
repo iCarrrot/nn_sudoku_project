@@ -1,3 +1,4 @@
+import json
 import os
 
 import numpy as np
@@ -68,11 +69,13 @@ def get_pics_path(default="~/Downloads/dataset"):
 
 def get_gray_images(pics_path):
     gray_images = []
-
-    for img_name in os.listdir(pics_path):
-        if 'jpg' in img_name:
-            img_path = os.path.join(pics_path, img_name)
-            gray_images.append(to_gray(img_path))
+    labels = []
+    with open(os.path.join(pics_path, 'data.txt')) as json_file:
+        data = json.load(json_file)
+    for img_name in data:
+        img_path = os.path.join(pics_path, img_name)
+        gray_images.append(to_gray(img_path))
+        labels.append(data[img_name])
 
     gray_images = np.array(gray_images)
-    return gray_images
+    return gray_images, labels
