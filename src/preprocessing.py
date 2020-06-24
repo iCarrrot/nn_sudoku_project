@@ -150,13 +150,13 @@ def split_into_cells(cropped, border_size=3):
     digit_width, digit_height = width // 9, height // 9
     digits = np.zeros((81, 28, 28))
 
-    ln_space = np.linspace(0, digit_width - 1, 28).astype(int)
-    xv, yv = np.meshgrid(ln_space, ln_space)
+    xln_space = np.linspace(0, digit_width - 1, 28).astype(int)
+    yln_space = np.linspace(0, digit_height - 1, 28).astype(int)
+    xv, yv = np.meshgrid(yln_space, xln_space)
 
     for i, (idx, jdx) in enumerate(itertools.product(range(9), range(9))):
         big_num = cropped[digit_width * idx: digit_width * (idx + 1),
                   digit_height * jdx: digit_height * (jdx + 1)]
-
         digits[i, :, :] = big_num[yv, xv]
         # cutting off the border
         border_size = 21 // 7
