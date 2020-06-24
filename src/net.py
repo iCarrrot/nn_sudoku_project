@@ -62,7 +62,8 @@ def test(model, device, test_loader):
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
-
+    if device != 'cpu':
+        return pred.cpu().numpy()
     return pred.numpy()
 
 
@@ -70,5 +71,6 @@ def get_dataloader(digits, y, batch_size_test=1000, device='cpu'):
     tensor_x = torch.Tensor((255 - digits).reshape((-1, 1, 28, 28))).to(device)
     tensor_y = torch.LongTensor(y.reshape((-1))).to(device)
     grid_dataset = torch.utils.data.TensorDataset(tensor_x, tensor_y)
-    grid_dataloader = torch.utils.data.DataLoader(grid_dataset, batch_size=batch_size_test, shuffle=True)
+    grid_dataloader = torch.utils.data.DataLoader(grid_dataset, batch_size=batch_size_test, shuffle=False)
+    grid_dataloader.dataset.tensors = tuple(t.to(device) for t in grid_dataloader.dataset.tensors)
     return grid_dataloader
