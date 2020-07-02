@@ -3,4 +3,4 @@ This is a project for neural nets course at the University of Wroclaw
 Authors: Piotr Gdowski (@horrorschau105) and Michał Martusewicz (@iCarrrot)
 
 # Raport
- - is ['here'](Raport.ipynb)
+ - is [here](Raport.ipynb)
